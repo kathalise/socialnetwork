@@ -1,0 +1,9 @@
+* {
+    background-color: pink;
+}
+
+img {
+    height: 500px;
+    width: auto;
+    object-fit: cover;
+}
