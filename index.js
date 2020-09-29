@@ -6,16 +6,21 @@ const { compare, hash } = require("./bcrypt.js");
 const cookieSession = require("cookie-session");
 // const csurf = require("csurf");
 const db = require("./db.js");
-const secrets = require("./secrets");
+// const secrets = require("./secrets");
 
 app.use(compression());
 app.use(express.static("./public"));
 app.use(express.json());
 
+// cookie session
+let secrets;
+process.env.NODE_ENV === "production"
+    ? (secrets = process.env)
+    : (secrets = require("./secrets"));
 app.use(
     cookieSession({
         secret: `${secrets.sessionSecret}`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
+        maxAge: 1000 * 60 * 60 * 24,
     })
 );
 
@@ -27,6 +32,13 @@ app.use(
 
 /////////////////////////////////////
 // app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.set("x-frame-options", "DENY");
+    // res.locals.csrfToken = req.csrfToken();
+    console.log(req.method, req.url);
+    next();
+});
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -48,7 +60,12 @@ app.get("*", function (req, res) {
 ////////////////////////////////////////////////
 
 app.get("/welcome", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
+    //if user is logged in
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
 });
 
 ////////////////////////////////////////////////
@@ -62,33 +79,37 @@ app.post("/register", (req, res) => {
 
     if (!firstname || !lastname || !email || !plainPassword) {
         console.log("Missing input!");
+        res.json({ success: false });
     } else {
         hash(plainPassword).then((password) => {
             console.log("plainPassword got hashed -> : ", password);
+            db.addUser(firstname, lastname, email, password)
+                .then((result) => {
+                    console.log("userId from DB: ", result.rows[0].id);
+                    req.session.userId = result.rows[0].id;
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log("Error in POST / register addUser", err);
+                    res.json({ success: false });
+                });
         });
     }
 });
 
-// app.get("/welcome", function (req, res) {
-//     console.log("WELCOME", res);
-//     //if user is logged in
-//     if (req.session.userId) {
-//         res.redirect("/");
-//     } else {
-//         res.sendFile(__dirname + "/index.html");
-//     }
-// });
+////////////////////////////////////////////////
+/* --------------- LAST ROUTE --------------- */
+/* -------- EVERYTHING ELSE GOES ABOVE------- */
+////////////////////////////////////////////////
 
-// ////////// * - ROUTE needs to be the VERY LAST ROUTE // EVERYTHING ELSE GOES ABOVE /////////
-// app.get("*", function (req, res) {
-//     console.log("WELCOME to *", res);
-//     // if user is logged out redirect to welcome
-//     if (!req.session.userId) {
-//         res.redirect("/welcome");
-//     } else {
-//         res.sendFile(__dirname + "/index.html");
-//     }
-// });
+app.get("*", function (req, res) {
+    // if user is logged out redirect to welcome
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
 
 app.listen(8080, function () {
     console.log("I'm listening on 8080.");

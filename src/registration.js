@@ -5,7 +5,7 @@ export default class Registration extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.submit = this.submit.bind(this);
+        // this.submit = this.submit.bind(this);
     }
 
     handleChange({ target }) {
@@ -26,19 +26,21 @@ export default class Registration extends React.Component {
             })
             .then(({ data }) => {
                 if (data.success) {
-                    // console.log("data success");
-                    location.replace = "/";
+                    location.replace("/");
                 } else {
                     this.setState({
                         error: true,
                     });
                 }
+            })
+            .catch((err) => {
+                console.log("Error in axios POST / register", err);
             });
     }
 
     render() {
         return (
-            <div>
+            <div className="registration-form">
                 {this.state.error && (
                     <div className="error">
                         Oops! Something went wrong. Try again.
@@ -46,25 +48,29 @@ export default class Registration extends React.Component {
                 )}
                 <input
                     name="firstname"
-                    placeholder="Firstname"
+                    placeholder="First Name"
                     onChange={(e) => this.handleChange(e)}
                 />
                 <input
                     name="lastname"
-                    placeholder="Lastname"
+                    placeholder="Last Name"
                     onChange={(e) => this.handleChange(e)}
                 />
                 <input
                     name="email"
+                    type="email"
                     placeholder="Email"
                     onChange={(e) => this.handleChange(e)}
                 />
                 <input
                     name="password"
+                    type="password"
                     placeholder="Password"
                     onChange={(e) => this.handleChange(e)}
                 />
-                <button onClick={() => this.submit()}>Submit</button>
+                <button className="submit-button" onClick={() => this.submit()}>
+                    Submit
+                </button>
             </div>
         );
     }
