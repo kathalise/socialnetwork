@@ -71,3 +71,9 @@ input:focus {
     font-style: italic;
     text-align: center;
 }
+
+.redirect {
+    margin-top: 20px;
+    font-size: 14px;
+    display: inline;
+}

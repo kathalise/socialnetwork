@@ -7,6 +7,7 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const db = require("./db.js");
 // const secrets = require("./secrets");
+const cryptoRandomString = require("crypto-random-string");
 
 app.use(compression());
 app.use(express.static("./public"));
@@ -103,14 +104,58 @@ app.post("/register", (req, res) => {
 ////////////////////////////////////////////////
 /* -----------------  LOGIN ----------------- */
 ////////////////////////////////////////////////
-app.get("/login", (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/");
-    }
-});
 
 app.post("/login", (req, res) => {
     console.log("user info login, req.body: ", req.body);
+    const email = req.body.email;
+    const plainPassword = req.body.password;
+
+    db.loginUser(email)
+        .then((hashedPassword) => {
+            const password = hashedPassword.rows[0].password;
+            // console.log("password ", password);
+            // console.log(
+            //     "hashedPassword.rows[0].id ",
+            //     hashedPassword.rows[0].id
+            // );
+            compare(plainPassword, password)
+                .then((userExists) => {
+                    console.log("userExists: ", userExists);
+                    if (userExists) {
+                        // console.log("user Exists GO ON!");
+                        req.session.userId = hashedPassword.rows[0].id;
+                        res.json({ success: true });
+                    } else {
+                        console.log("Wrong email pw combination!");
+                        res.json({ success: false });
+                    }
+                })
+                .catch((err) => {
+                    console.log("error in catch block compare", err);
+                    res.json({ success: false });
+                });
+        })
+        .catch((err) => {
+            console.log("err in catch block loginUser", err);
+            res.json({ success: false });
+        });
+});
+
+////////////////////////////////////////////////
+/* ------------- RESET PASSWORD ------------- */
+////////////////////////////////////////////////
+
+app.post("/reset-email", (req, res) => {
+    console.log("Email for pw reset submitted", req.body);
+    console.log("email: ", email);
+    const { email } = req.body;
+    if (!email) {
+        console.log("Wrong E-Mail");
+        res.json({ success: false });
+    } else {
+        const resetCode = cryptoRandomString;
+        console.log("resetCode", resetCode);
+    }
 });
 
 ////////////////////////////////////////////////
