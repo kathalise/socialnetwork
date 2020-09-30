@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "./axios.js";
-import { Link } from "react-router-dom";
 
-export default class Registration extends React.Component {
+export default class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -17,11 +16,9 @@ export default class Registration extends React.Component {
     }
 
     submit() {
-        const { firstname, lastname, email, password } = this.state;
+        const { email, password } = this.state;
         axios
-            .post("/register", {
-                firstname,
-                lastname,
+            .post("/login", {
                 email,
                 password,
             })
@@ -35,7 +32,7 @@ export default class Registration extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log("Error in axios POST / register", err);
+                console.log("Error in axios POST / login", err);
             });
     }
 
@@ -49,16 +46,6 @@ export default class Registration extends React.Component {
                     </div>
                 )}
                 <input
-                    name="firstname"
-                    placeholder="First Name"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    name="lastname"
-                    placeholder="Last Name"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
                     name="email"
                     type="email"
                     placeholder="Email"
@@ -71,9 +58,8 @@ export default class Registration extends React.Component {
                     onChange={(e) => this.handleChange(e)}
                 />
                 <button className="submit-button" onClick={() => this.submit()}>
-                    Submit
+                    Login
                 </button>
-                <Link to="/login">Already a member? Login here.</Link>
             </div>
         );
     }

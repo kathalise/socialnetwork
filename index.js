@@ -4,7 +4,7 @@ const compression = require("compression");
 const { compare, hash } = require("./bcrypt.js");
 // const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
-// const csurf = require("csurf");
+const csurf = require("csurf");
 const db = require("./db.js");
 // const secrets = require("./secrets");
 
@@ -30,12 +30,17 @@ app.use(
     })
 );
 
-/////////////////////////////////////
-// app.use(csurf());
+// cookie Session token protection
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    console.log("token");
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.use(function (req, res, next) {
     res.set("x-frame-options", "DENY");
-    // res.locals.csrfToken = req.csrfToken();
     console.log(req.method, req.url);
     next();
 });
@@ -51,17 +56,15 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.get("*", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
-});
-
 ////////////////////////////////////////////////
 /* ----------------  WELCOME  --------------- */
 ////////////////////////////////////////////////
 
 app.get("/welcome", function (req, res) {
+    console.log("in get /welcome", req.session);
     //if user is logged in
     if (req.session.userId) {
+        console.log("Hallo MerleMerle");
         res.redirect("/");
     } else {
         res.sendFile(__dirname + "/index.html");
@@ -98,6 +101,19 @@ app.post("/register", (req, res) => {
 });
 
 ////////////////////////////////////////////////
+/* -----------------  LOGIN ----------------- */
+////////////////////////////////////////////////
+app.get("/login", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    }
+});
+
+app.post("/login", (req, res) => {
+    console.log("user info login, req.body: ", req.body);
+});
+
+////////////////////////////////////////////////
 /* --------------- LAST ROUTE --------------- */
 /* -------- EVERYTHING ELSE GOES ABOVE------- */
 ////////////////////////////////////////////////
@@ -105,6 +121,7 @@ app.post("/register", (req, res) => {
 app.get("*", function (req, res) {
     // if user is logged out redirect to welcome
     if (!req.session.userId) {
+        console.log("Hallo Merle");
         res.redirect("/welcome");
     } else {
         res.sendFile(__dirname + "/index.html");
