@@ -29,14 +29,17 @@ module.exports.addResetCode = (email, code) => {
     return db.query(q, params);
 };
 
-module.exports.compareCode = (email) => {
-    const q = `SELECT code FROM password_reset_codes 
-    WHERE 
-    email = $1 
-    AND 
+module.exports.getCode = (email) => {
+    const q = `SELECT code FROM password_reset_codes WHERE email=$1 AND 
     CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' 
-    ORDER BY id DESC
+    ORDER BY created_at DESC
     LIMIT 1`;
     const params = [email];
+    return db.query(q, params);
+};
+
+module.exports.addNewPassword = (email, password) => {
+    const q = `UPDATE users SET password=$2 WHERE email=$1 RETURNING *`;
+    const params = [email, password];
     return db.query(q, params);
 };

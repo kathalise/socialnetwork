@@ -7,6 +7,7 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const db = require("./db.js");
 // const secrets = require("./secrets");
+const ses = require("./ses.js");
 const cryptoRandomString = require("crypto-random-string");
 
 app.use(compression());
@@ -62,7 +63,7 @@ if (process.env.NODE_ENV != "production") {
 ////////////////////////////////////////////////
 
 app.get("/welcome", function (req, res) {
-    console.log("in get /welcome", req.session);
+    // console.log("in get /welcome: ", req.session);
     //if user is logged in
     if (req.session.userId) {
         console.log("Hallo MerleMerle");
@@ -145,17 +146,97 @@ app.post("/login", (req, res) => {
 /* ------------- RESET PASSWORD ------------- */
 ////////////////////////////////////////////////
 
+///////////// STEP ONE - post-email ///////////
+
 app.post("/reset-email", (req, res) => {
     console.log("Email for pw reset submitted", req.body);
-    console.log("email: ", email);
     const { email } = req.body;
+    console.log("email: ", email);
     if (!email) {
         console.log("Wrong E-Mail");
         res.json({ success: false });
     } else {
-        const resetCode = cryptoRandomString;
-        console.log("resetCode", resetCode);
+        console.log("EMAIL IS CORRECT!");
+        const resetCode = cryptoRandomString({
+            length: 6,
+        });
+        console.log("resetCode: ", resetCode);
+
+        db.addResetCode(email, resetCode)
+            .then(() => {
+                console.log("inside addResetCode");
+                ses.sendEmail(
+                    email,
+                    resetCode,
+                    "Here's the Code to reset Your Password"
+                )
+                    .then(() => {
+                        console.log("inside send Email");
+                        res.json({ success: true });
+                    })
+                    .catch((err) => {
+                        console.log("Err in sendEmail", err);
+                        res.json({ success: false });
+                    });
+            })
+            .catch((err) => {
+                console.log("error in addResetCode", err);
+                res.json({ success: false });
+            });
     }
+});
+
+///////////// STEP TWO - post code + new pw ///////////
+
+app.post("/reset-code", (req, res) => {
+    // console.log("inside POST /reset-code: ", req.body);
+    const email = req.body.email;
+    const code = req.body.code;
+    const plainPassword = req.body.password;
+    if (!code || !plainPassword) {
+        console.log("missing / false input values!");
+        res.json({ success: false });
+    } else {
+        // console.log("ELSE, code pw: ", code, plainPassword);
+        db.getCode(email)
+            .then((result) => {
+                console.log(
+                    "Result from DB / get code, result.rows[0].code: ",
+                    result.rows[0].code
+                );
+                if (code == result.rows[0].code) {
+                    console.log("Code matches! off to hashing new pw");
+                    hash(plainPassword)
+                        .then((password) => {
+                            db.addNewPassword(email, password)
+                                .then(() => {
+                                    res.json({ success: true });
+                                })
+                                .catch((err) => {
+                                    console.log("err", err);
+                                });
+                        })
+                        .catch((err) => {
+                            console.log("err in hashing new pw", err);
+                        });
+                } else {
+                    console.log("FAILED CHANGING PW");
+                    res.json({ success: false });
+                }
+            })
+            .catch((err) => {
+                console.log("err in getCode", err);
+                res.json({ success: false });
+            });
+    }
+});
+
+////////////////////////////////////////////////
+/* --------------   USER PAGE   ------------- */
+////////////////////////////////////////////////
+
+app.get("/user", function (req, res) {
+    console.log("HELLO USER PAGE! req.session: ", req.session);
 });
 
 ////////////////////////////////////////////////

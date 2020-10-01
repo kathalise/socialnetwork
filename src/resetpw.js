@@ -24,7 +24,7 @@ export default class ResetPassword extends React.Component {
                 email,
             })
             .then(({ data }) => {
-                console.log("data from server: ", data);
+                // console.log("data from server: ", data);
                 if (data.success) {
                     this.setState({
                         current: 2,
@@ -44,8 +44,31 @@ export default class ResetPassword extends React.Component {
     }
 
     submitCode() {
-        const { code, password } = this.state;
-        console.log("???? code password in reset", code, password);
+        const { email, code, password } = this.state;
+        console.log("code new-password in reset: ", email, code, password);
+        axios
+            .post("/reset-code", {
+                email,
+                code,
+                password,
+            })
+            .then(({ data }) => {
+                if (data.success) {
+                    this.setState({
+                        current: 3,
+                    });
+                } else {
+                    this.setState({
+                        error: true,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("err", err);
+                this.setState({
+                    error: true,
+                });
+            });
     }
 
     render() {
@@ -59,6 +82,7 @@ export default class ResetPassword extends React.Component {
                         name="email"
                         type="email"
                         placeholder="Email"
+                        key={0} // what ever this is?
                         onChange={(e) => this.handleChange(e)}
                     />
                     <button
@@ -71,13 +95,14 @@ export default class ResetPassword extends React.Component {
             );
         } else if (this.state.current == 2) {
             elem = (
-                <div>
+                <div className="registration-form">
                     <h3>Enter Code</h3>
                     <p>Please enter the code you received</p>
                     <input
                         name="code"
                         type="text"
                         placeholder="Code"
+                        key={1} // what ever this is?
                         onChange={(e) => this.handleChange(e)}
                     />
                     <input
@@ -95,6 +120,7 @@ export default class ResetPassword extends React.Component {
                 </div>
             );
         } else {
+            console.log("SOMETHING SOMETHING");
             elem = (
                 <div className="redirect">
                     <Link to="/login">Login with new Password.</Link>
