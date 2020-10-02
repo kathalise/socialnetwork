@@ -10,6 +10,28 @@ const db = require("./db.js");
 const ses = require("./ses.js");
 const cryptoRandomString = require("crypto-random-string");
 
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const path = require("path");
+const s3 = require("./s3.js");
+const config = require("./config.json");
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
 app.use(compression());
 app.use(express.static("./public"));
 app.use(express.json());
@@ -236,7 +258,54 @@ app.post("/reset-code", (req, res) => {
 ////////////////////////////////////////////////
 
 app.get("/user", function (req, res) {
-    console.log("HELLO USER PAGE! req.session: ", req.session);
+    console.log("HELLO USER PAGE! userId: ", req.session.userId);
+    const userId = req.session.userId;
+    db.getUserInfo(userId)
+        .then((result) => {
+            // console.log("result: ", result.rows[0]);
+            const userInfo = result.rows[0];
+            // console.log("UserInfo", userInfo);
+            res.json(userInfo);
+        })
+        .catch((err) => {
+            console.log("err in GET /user", err);
+        });
+});
+
+app.post(
+    "/uploadProfilepic",
+    uploader.single("file"),
+    s3.upload,
+    (req, res) => {
+        console.log("INSIDE POST uploadProfilePic: ", req.session);
+        const userId = req.session.userId;
+
+        console.log(
+            "userId, imgLink: ",
+            userId,
+            config.s3Url + req.file.filename
+        );
+        db.uploadProfilePic(config.s3Url + req.file.filename, userId)
+            .then((result) => {
+                console.log(
+                    "Inside uploadProfilePic, result: ",
+                    result.rows[0].imgurl
+                );
+                res.json(result.rows[0].imgurl);
+            })
+            .catch((err) => {
+                console.log("err in uploadProfilePic", err);
+            });
+    }
+);
+
+////////////////////////////////////////////////
+/* --------------    LOG OUT    ------------- */
+////////////////////////////////////////////////
+
+app.get("/logout", (req, res) => {
+    req.session.userId = null;
+    res.redirect("/");
 });
 
 ////////////////////////////////////////////////

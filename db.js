@@ -20,6 +20,17 @@ module.exports.loginUser = (email) => {
     return db.query(q, params);
 };
 
+module.exports.getUserInfo = (id) => {
+    const q = `SELECT * FROM users WHERE id = $1`;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.uploadProfilePic = (imgUrl, id) => {
+    const q = `UPDATE users SET imgUrl = $1 WHERE id = $2 RETURNING imgUrl`;
+    const params = [imgUrl, id];
+    return db.query(q, params);
+};
 // ------------------- password_reset_codes table ------------------- //
 
 module.exports.addResetCode = (email, code) => {
