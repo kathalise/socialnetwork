@@ -19,19 +19,14 @@ export default class Uploader extends React.Component {
         console.log("formData: ", formData);
         formData.append("file", profilePic);
 
-        ////////////////////////////////////////////////
-        ////////////////////////////////////////////////
-        // WHY IS IMAGE NOT SHOWING WITHOUT REFRESH ? //
-        ////////////////////////////////////////////////
-        ////////////////////////////////////////////////
-
         axios
             .post("/uploadProfilepic", formData)
             .then(({ data }) => {
                 console.log("data: ", data);
                 const imgUrl = data;
-                this.getImageWithoutRefresh(imgUrl);
-                this.closeMe();
+                // console.log("WHAT IS imgUrl?: ", imgUrl);
+                this.props.uploadImage(imgUrl);
+                // console.log("this ", this);
             })
             .catch((err) => {
                 console.log("err in POST /uploadProfilepic", err);
@@ -43,24 +38,13 @@ export default class Uploader extends React.Component {
         this.props.closeUploader();
     }
 
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    //////////// check THIS function  //////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-
-    getImageWithoutRefresh(imgUrl) {
-        console.log("Image went through", imgUrl);
-        this.props.uploadImage(imgUrl);
-    }
-
     render() {
         return (
             <div className="uploader-container">
                 <h2 className="closeX" onClick={() => this.closeMe()}>
                     x
                 </h2>
-                <h2>Select A Profile Picture</h2>
+                <h2>Update Profile Picture</h2>
 
                 <input
                     onChange={(e) => this.uploadingFile(e)}

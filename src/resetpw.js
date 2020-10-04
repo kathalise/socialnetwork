@@ -76,8 +76,9 @@ export default class ResetPassword extends React.Component {
         if (this.state.current == 1) {
             elem = (
                 <div className="registration-form">
-                    <h3>You are about to reset Your password</h3>
-                    <p>Please enter Your email address</p>
+                    <h3 style={{ alignSelf: "center" }}>Reset Your Password</h3>
+                    <p>Please enter Your email address:</p>
+                    {/* <p>Please enter Your email address</p> */}
                     <input
                         name="email"
                         type="email"
@@ -89,15 +90,15 @@ export default class ResetPassword extends React.Component {
                         className="submit-button"
                         onClick={() => this.submitEmail()}
                     >
-                        Submit
+                        Next Step
                     </button>
                 </div>
             );
         } else if (this.state.current == 2) {
             elem = (
                 <div className="registration-form">
-                    <h3>Enter Code</h3>
-                    <p>Please enter the code you received</p>
+                    <h3 style={{ alignSelf: "center" }}>Reset Your Password</h3>
+                    <p>Please enter the code you received:</p>
                     <input
                         name="code"
                         type="text"
@@ -108,22 +109,27 @@ export default class ResetPassword extends React.Component {
                     <input
                         name="password"
                         type="password"
-                        placeholder="New Password"
+                        placeholder="Enter New Password"
                         onChange={(e) => this.handleChange(e)}
                     />
                     <button
                         className="submit-button"
                         onClick={() => this.submitCode()}
                     >
-                        Submit
+                        Save New Password
                     </button>
                 </div>
             );
         } else {
-            console.log("SOMETHING SOMETHING");
+            // console.log("SOMETHING SOMETHING");
             elem = (
-                <div className="redirect">
-                    <Link to="/login">Login with new Password.</Link>
+                <div className="reset-final">
+                    <h3 style={{ alignSelf: "center" }}>
+                        Your password has been reset successfully!
+                    </h3>
+                    <div className="redirect">
+                        <Link to="/login">Log in with new Password.</Link>
+                    </div>
                 </div>
             );
         }

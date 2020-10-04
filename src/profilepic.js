@@ -5,16 +5,16 @@ export default function ProfilePic({
     lastname,
     imgUrl,
     toggleUploader,
+    imgClassName,
 }) {
     return (
-        <>
-            <h2>Hey {firstname}, glad to see you around!</h2>
+        <div>
             <img
                 onClick={toggleUploader}
-                className="small"
+                className={imgClassName}
                 src={imgUrl}
                 alt={`${firstname} ${lastname}`}
             />
-        </>
+        </div>
     );
 }

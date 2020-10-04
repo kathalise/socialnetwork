@@ -40,10 +40,11 @@ export default class Login extends React.Component {
     render() {
         return (
             <div className="registration-form">
-                <h3>Login here</h3>
+                <h3 style={{ alignSelf: "center" }}>Login here</h3>
                 {this.state.error && (
                     <div className="error">
-                        Oops! Something went wrong. Try again.
+                        Oops! Something went wrong.<br></br>
+                        Please try again.
                     </div>
                 )}
                 <input
@@ -63,6 +64,8 @@ export default class Login extends React.Component {
                 </button>
                 <div className="redirect">
                     <Link to="/">Not yet a member? Register here.</Link>
+                    <br></br>
+                    <br></br>
                     <Link to="/reset">Forgot Your password?</Link>
                 </div>
             </div>

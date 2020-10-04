@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome.js";
 import { App } from "./app.js";
-
 let elem;
 
 // if user is logged out, show WELCOME registration page /welcome
@@ -14,3 +13,7 @@ if (location.pathname == "/welcome") {
 }
 
 ReactDOM.render(elem, document.querySelector("main"));
+
+////////////////////////////////////////////////
+//////////// check THIS function ↓ /////////////
+////////////////////////////////////////////////

@@ -42,10 +42,13 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div className="registration-form">
-                <h3>Join the social network!</h3>
+                <h3 style={{ alignSelf: "center" }}>
+                    Join the social network!
+                </h3>
                 {this.state.error && (
                     <div className="error">
-                        Oops! Something went wrong. Try again.
+                        Oops! Something went wrong.<br></br>
+                        Please try again.
                     </div>
                 )}
                 <input
@@ -73,9 +76,9 @@ export default class Registration extends React.Component {
                 <button className="submit-button" onClick={() => this.submit()}>
                     Submit
                 </button>
-                {/* <div className="redirect"> */}
-                <Link to="/login">Already a member? Login here.</Link>
-                {/* </div> */}
+                <div className="redirect">
+                    <Link to="/login">Already a member? Login here.</Link>
+                </div>
             </div>
         );
     }

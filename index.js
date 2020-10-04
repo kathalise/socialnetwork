@@ -15,6 +15,7 @@ const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./s3.js");
 const config = require("./config.json");
+const { IdentityStore } = require("aws-sdk");
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + "/uploads");
@@ -298,6 +299,27 @@ app.post(
             });
     }
 );
+
+////////////////////////////////////////////////
+/* --------------  EDIT BIO     ------------- */
+////////////////////////////////////////////////
+
+app.post("/updatebio", (req, res) => {
+    console.log("Inside POST /updatebio", req.body.bio, req.session.userId);
+    const myBio = req.body.bio;
+    const userId = req.session.userId;
+
+    console.log("myBio, id:", myBio, userId);
+
+    db.addBio(myBio, userId)
+        .then((result) => {
+            // console.log("inside addBio", result.rows[0].bio);
+            res.json(result.rows[0].bio);
+        })
+        .catch((err) => {
+            console.log("err in catch addBio", err);
+        });
+});
 
 ////////////////////////////////////////////////
 /* --------------    LOG OUT    ------------- */
