@@ -322,6 +322,37 @@ app.post("/updatebio", (req, res) => {
 });
 
 ////////////////////////////////////////////////
+/* -----------  VISIT OTHER USER  ----------- */
+////////////////////////////////////////////////
+
+app.get("/visit/user/:otherId", (req, res) => {
+    // console.log(
+    //     "INSIDE GET /user/:otherId, Logged in userId:",
+    //     req.session.userId
+    // );
+    // console.log("otherId :", req.params.otherId);
+    const userId = req.session.userId;
+    const otherId = req.params.otherId;
+    if (userId == otherId) {
+        // console.log("THE SAME!");
+        res.json({ same: true });
+    } else {
+        db.getUserInfo(otherId)
+            .then((result) => {
+                if (result.rows[0]) {
+                    // console.log("RESULT: ", result.rows[0]);
+                    res.json(result.rows[0]);
+                } else if (result.rows[0] == undefined) {
+                    res.json({ noUserId: true });
+                }
+            })
+            .catch((err) => {
+                console.log("Err in getUserInfo(otherId)", err);
+            });
+    }
+});
+
+////////////////////////////////////////////////
 /* --------------    LOG OUT    ------------- */
 ////////////////////////////////////////////////
 

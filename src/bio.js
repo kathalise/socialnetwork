@@ -59,7 +59,12 @@ export default class BioEditor extends React.Component {
                         placeholder="Add a bio ✍️"
                     ></textarea>
                     <div className="bio-buttons">
-                        <button className="submit-button">Cancel</button>
+                        <button
+                            onClick={() => this.bioEditingModeOn()}
+                            className="submit-button"
+                        >
+                            Cancel
+                        </button>
                         <button
                             className="submit-button"
                             onClick={() => this.submitChanges()}

@@ -5,6 +5,8 @@ import axios from "./axios.js";
 import ProfilePic from "./profilepic.js";
 import BackgroundImagePage from "./background.js";
 import Profile from "./profile.js";
+import { BrowserRouter, Route } from "react-router-dom";
+import OtherProfile from "./otherProfile.js";
 
 export class App extends React.Component {
     constructor() {
@@ -80,11 +82,12 @@ export class App extends React.Component {
 
     render() {
         // Loading .... time for some spinner
-        // if (!this.state.id) {
-        //     return null;
-        // }
+        if (!this.state.id) {
+            console.log("Pending.....");
+            return null;
+        }
         return (
-            <div>
+            <BrowserRouter>
                 {this.state.error && (
                     <div className="error">
                         Oops! Something went wrong.<br></br>
@@ -97,20 +100,37 @@ export class App extends React.Component {
                     <ProfilePic
                         firstname={this.state.firstname}
                         lastname={this.state.lastname}
-                        imgUrl={this.state.imgUrl || "./default.png"}
+                        imgUrl={this.state.imgUrl || "/default.png"}
                         toggleUploader={this.toggleUploader}
                         imgClassName="small"
                     />
                 </header>
-                <Profile
-                    id={this.state.id}
-                    firstname={this.state.firstname}
-                    lastname={this.state.lastname}
-                    imgUrl={this.state.imgUrl || "./default.png"}
-                    toggleUploader={this.toggleUploader}
-                    bio={this.state.bio}
-                    updateBio={this.updateBio}
+                <Route
+                    exact
+                    path="/"
+                    render={() => (
+                        <Profile
+                            id={this.state.id}
+                            firstname={this.state.firstname}
+                            lastname={this.state.lastname}
+                            imgUrl={this.state.imgUrl || "/default.png"}
+                            toggleUploader={this.toggleUploader}
+                            bio={this.state.bio}
+                            updateBio={this.updateBio}
+                        />
+                    )}
                 />
+                <Route
+                    path="/user/:otherId"
+                    render={(props) => (
+                        <OtherProfile
+                            key={props.url}
+                            match={props.match}
+                            history={props.history}
+                        />
+                    )}
+                />
+
                 <BackgroundImagePage />
                 {this.state.uploaderIsVisible && (
                     <Uploader
@@ -118,7 +138,7 @@ export class App extends React.Component {
                         closeUploader={this.closeUploader}
                     />
                 )}
-            </div>
+            </BrowserRouter>
         );
     }
 }
