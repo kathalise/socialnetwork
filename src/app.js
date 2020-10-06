@@ -7,6 +7,8 @@ import BackgroundImagePage from "./background.js";
 import Profile from "./profile.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile.js";
+import FindPeople from "./findPeople";
+import { Link } from "react-router-dom";
 
 export class App extends React.Component {
     constructor() {
@@ -23,13 +25,13 @@ export class App extends React.Component {
     }
 
     componentDidMount() {
-        console.log("App just mounted");
+        // console.log("App just mounted");
         // this is a good place fot axios
         axios
             .get("/user")
             .then(({ data }) => {
-                console.log("{ data }: ", { data });
-                console.log(" data: ", data);
+                // console.log("{ data }: ", { data });
+                // console.log(" data: ", data);
 
                 this.setState({
                     id: data.id,
@@ -38,7 +40,7 @@ export class App extends React.Component {
                     imgUrl: data.imgurl,
                     bio: data.bio,
                 });
-                console.log("this: ", this);
+                // console.log("this: ", this);
             })
             .catch((err) => {
                 console.log("Err in axios GET / user", err);
@@ -49,7 +51,7 @@ export class App extends React.Component {
     }
 
     toggleUploader() {
-        console.log("profilepic was hit");
+        // console.log("profilepic was hit");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
@@ -64,14 +66,14 @@ export class App extends React.Component {
     }
 
     closeUploader() {
-        console.log("Uploader Gone");
+        // console.log("Uploader Gone");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     updateBio(updateMyBio) {
-        console.log("Greetings from updateBioApp!!!");
+        // console.log("Greetings from updateBioApp!!!");
         this.setState({
             /////////////////////////////////////////////////////////////// <<<< POST
             ///////
@@ -104,6 +106,7 @@ export class App extends React.Component {
                         toggleUploader={this.toggleUploader}
                         imgClassName="small"
                     />
+                    {/* <Link to={"/logout"}>Logout</Link> */}
                 </header>
                 <Route
                     exact
@@ -130,6 +133,7 @@ export class App extends React.Component {
                         />
                     )}
                 />
+                <Route path="/users" render={() => <FindPeople />} />
 
                 <BackgroundImagePage />
                 {this.state.uploaderIsVisible && (

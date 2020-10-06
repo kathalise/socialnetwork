@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "./axios";
-import ProfilePic from "./profilepic";
 
 export default class OtherProfile extends React.Component {
     constructor() {
@@ -54,6 +53,7 @@ export default class OtherProfile extends React.Component {
             return (
                 <div className="bio-container">
                     <img
+                        style={{ cursor: "auto" }}
                         className="large"
                         src="/default.png"
                         alt="Default Image"
@@ -65,6 +65,7 @@ export default class OtherProfile extends React.Component {
             return (
                 <div className="bio-container">
                     <img
+                        style={{ cursor: "auto" }}
                         className="large"
                         src={this.state.imgUrl || "/default.png"}
                         alt={`${this.state.firstname} ${this.state.lastname}`}

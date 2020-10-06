@@ -353,6 +353,36 @@ app.get("/visit/user/:otherId", (req, res) => {
 });
 
 ////////////////////////////////////////////////
+/* ---------  MOST RECENT REG   ------------- */
+////////////////////////////////////////////////
+
+app.get("/mostrecent/users", async (req, res) => {
+    console.log("GETTING RECENT USERS");
+    try {
+        let { rows } = await db.getMostRecent();
+        // console.log("rows: ", rows);
+        res.json(rows);
+    } catch (err) {
+        console.log("err in getMostRecent", err);
+    }
+});
+
+////////////////////////////////////////////////
+/* ----------  SEARCH FOR USER  ------------- */
+////////////////////////////////////////////////
+app.get("/mostrecent/users/:userInput", async (req, res) => {
+    console.log("SEARCHING FOR A USER", req.params.userInput);
+    let userInput = req.params.userInput;
+    try {
+        let { rows } = await db.getUserSearch(userInput);
+        // console.log("rows: ", rows);
+        res.json(rows);
+    } catch (err) {
+        console.log("err in getUserSearch", err);
+    }
+});
+
+////////////////////////////////////////////////
 /* --------------    LOG OUT    ------------- */
 ////////////////////////////////////////////////
 

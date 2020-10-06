@@ -55,6 +55,16 @@ header {
     border: 6px solid rgba(0, 0, 255, 0.447);
 }
 
+/* profile pic medium */
+.medium {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    margin: 20px;
+    border: 6px solid rgba(0, 0, 255, 0.447);
+}
+
 /* profile pic small */
 .small {
     height: 100px;
@@ -214,4 +224,34 @@ textarea:focus {
     width: 35%;
     /* align-self: flex-end; */
     margin-top: 20px;
+}
+
+/* 3 recently registered users */
+.newbies-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.newbies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.center-headline {
+    text-align: center;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-results {
+    display: flex;
+    width: 40%;
+}
+
+.search {
+    width: 30%;
 }
