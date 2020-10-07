@@ -3,7 +3,9 @@ import React from "react";
 export default function Logo() {
     return (
         <div>
-            <img className="logo" src="/logo.png" alt="logo" />
+            <a href={"/logout"}>
+                <img className="logo" src="/logo.png" alt="logo" />
+            </a>
         </div>
     );
 }

@@ -106,7 +106,6 @@ export class App extends React.Component {
                         toggleUploader={this.toggleUploader}
                         imgClassName="small"
                     />
-                    {/* <Link to={"/logout"}>Logout</Link> */}
                 </header>
                 <Route
                     exact

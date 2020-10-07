@@ -1,9 +1,10 @@
 import React from "react";
 import axios from "./axios";
+import FriendButton from "./friendButton";
 
 export default class OtherProfile extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {};
     }
 
@@ -22,14 +23,14 @@ export default class OtherProfile extends React.Component {
 
                 if (data.same) {
                     this.props.history.push("/");
-                    console.log("Logged in user SAME as visited");
+                    // console.log("Logged in user SAME as visited");
                 } else if (data.noUserId) {
-                    console.log("NO SUCH USER!!!");
+                    // console.log("NO SUCH USER!!!");
                     this.setState({
                         noUserId: true,
                     });
                 } else {
-                    console.log("loggedIn visiting another user");
+                    // console.log("loggedIn visiting another user");
                     this.setState({
                         id: data.id,
                         firstname: data.firstname,
@@ -42,10 +43,6 @@ export default class OtherProfile extends React.Component {
             .catch((err) => {
                 console.log("Err in GET /user/:otherId", err);
             });
-
-        ////////////////////////////////////////////////
-        //////////// check THIS function ↓ /////////////
-        ////////////////////////////////////////////////
     }
 
     render() {
@@ -64,13 +61,18 @@ export default class OtherProfile extends React.Component {
         } else {
             return (
                 <div className="bio-container">
-                    <img
-                        style={{ cursor: "auto" }}
-                        className="large"
-                        src={this.state.imgUrl || "/default.png"}
-                        alt={`${this.state.firstname} ${this.state.lastname}`}
-                    />
-
+                    <div>
+                        <img
+                            style={{ cursor: "auto" }}
+                            className="large"
+                            src={this.state.imgUrl || "/default.png"}
+                            alt={`${this.state.firstname} ${this.state.lastname}`}
+                        />
+                        {/* Passing otherId as props to Child Component: FriendButton */}
+                        <FriendButton
+                            otherId={this.props.match.params.otherId}
+                        />
+                    </div>
                     <div className="bio-frame">
                         <h1>
                             {this.state.firstname} {this.state.lastname}

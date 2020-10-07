@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function FindPeople() {
-    // const [name, setName] = useState("Kathi");
     const [users, setUsers] = useState([]);
     const [userInput, setUserInput] = useState("");
     const [userSearch, setUserSearch] = useState([]);

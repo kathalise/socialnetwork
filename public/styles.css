@@ -4,20 +4,20 @@
     box-sizing: border-box;
 }
 
-body,
+/* body,
 html {
     height: 100%;
-}
+} */
 /* /////////////////*/
 /* background image */
 /* /////////////////*/
-.bg {
+/* .bg {
     background-image: url("./tiles.jpg");
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
+} */
 
 .welcome {
     display: flex;
@@ -254,4 +254,33 @@ textarea:focus {
 
 .search {
     width: 30%;
+}
+
+/* FRIEND BUTTON  */
+
+.friend-button {
+    width: 200px;
+    height: 40px;
+
+    box-shadow: 2px 4px 2px 0 #e3001b;
+
+    border-radius: 8px;
+    border: none;
+    margin: 10px 10px 5px;
+    padding: 6px 6px;
+    background-color: rgba(158, 156, 156, 0.473);
+    cursor: pointer;
+    outline: none;
+    margin-left: 20px;
+}
+
+.friend-button:hover {
+    background-color: blue;
+    color: white;
+    transition: 0.5s;
+}
+.friend-button:active {
+    outline: none;
+    background-color: #e3001b;
+    box-shadow: inset 3px 4px 0.5px #60020d;
 }

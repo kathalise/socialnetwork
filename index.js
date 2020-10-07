@@ -383,6 +383,69 @@ app.get("/mostrecent/users/:userInput", async (req, res) => {
 });
 
 ////////////////////////////////////////////////
+/* ---------  FRIENDSHIP STATUS  ------------ */
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+//////////// check THIS function ↓ /////////////
+////////////////////////////////////////////////
+
+app.get("/friendstatus/:otherId", async (req, res) => {
+    console.log("Logged in as: ", req.session.userId);
+    console.log("Visiting Profile Id: ", req.params.otherId);
+    const otherId = req.params.otherId;
+    const userId = req.session.userId;
+    try {
+        let { rows } = await db.getFriendshipStatus(otherId, userId);
+        console.log("in try getFriendshipStatus", rows);
+        if (rows.length == 0) {
+            console.log("NO BUDDIES YET");
+            res.json({ textButton: "Add Buddy" });
+        } else if (!rows[0].accepted) {
+            if (userId == rows[0].sender_id) {
+                res.json({ textButton: "Cancel Buddy Request" });
+            } else {
+                res.json({ textButton: "Accept Buddy Request" });
+            }
+        } else if (rows[0].accepted) {
+            res.json({ textButton: "Delete Buddy" });
+        } else {
+            console.log("WHAT ELESE??");
+        }
+    } catch (err) {
+        console.log("err", err);
+    }
+});
+
+////////////////////////////////////////////////
+//////////// check THIS function ↓ /////////////
+////////////////////////////////////////////////
+app.post("/update-friendstatus", async (req, res) => {
+    console.log("change in friendstatus, otherId: ", req.body.otherId);
+    const otherId = req.body.otherId;
+    const userId = req.session.userId;
+    console.log("userId: ", userId);
+    try {
+        let { rows } = await db.addFriend(userId, otherId);
+        console.log("Friend Req accepted", rows[0].accepted);
+        if (rows.length == 0) {
+            res.json({ textButton: "Add Buddy" });
+        } else if (rows[0].accepted == false) {
+            res.json({ textButton: "Cancel Buddy Request" });
+        }
+        await db.acceptFriendRequest(otherId, userId);
+        console.log("accepted Friend Request", rows);
+        res.json({ textButton: "acceptFriendRequest" });
+
+        await db.endFriendship(otherId, userId);
+        console.log("ended friendship", rows);
+        res.json({ textButton: "endFriendship" });
+    } catch (err) {
+        console.log("err in POST /update-friendstatus", err);
+    }
+});
+
+////////////////////////////////////////////////
 /* --------------    LOG OUT    ------------- */
 ////////////////////////////////////////////////
 

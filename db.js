@@ -31,23 +31,6 @@ module.exports.uploadProfilePic = (imgUrl, id) => {
     const params = [imgUrl, id];
     return db.query(q, params);
 };
-// ------------------- password_reset_codes table ------------------- //
-
-module.exports.addResetCode = (email, code) => {
-    const q = `INSERT INTO password_reset_codes (email, code) 
-    VALUES ($1, $2) RETURNING id`;
-    const params = [email, code];
-    return db.query(q, params);
-};
-
-module.exports.getCode = (email) => {
-    const q = `SELECT code FROM password_reset_codes WHERE email=$1 AND 
-    CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' 
-    ORDER BY created_at DESC
-    LIMIT 1`;
-    const params = [email];
-    return db.query(q, params);
-};
 
 module.exports.addNewPassword = (email, password) => {
     const q = `UPDATE users SET password=$2 WHERE email=$1 RETURNING *`;
@@ -69,5 +52,55 @@ module.exports.getMostRecent = () => {
 module.exports.getUserSearch = (userInput) => {
     const q = `SELECT * FROM users WHERE firstname ILIKE $1 OR lastname ILIKE $1`;
     const params = [userInput + "%"];
+    return db.query(q, params);
+};
+
+// ------------------- password_reset_codes table ------------------- //
+
+module.exports.addResetCode = (email, code) => {
+    const q = `INSERT INTO password_reset_codes (email, code) 
+    VALUES ($1, $2) RETURNING id`;
+    const params = [email, code];
+    return db.query(q, params);
+};
+
+module.exports.getCode = (email) => {
+    const q = `SELECT code FROM password_reset_codes WHERE email=$1 AND 
+    CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' 
+    ORDER BY created_at DESC
+    LIMIT 1`;
+    const params = [email];
+    return db.query(q, params);
+};
+
+// ---------------------------- friendships ------------------------ //
+module.exports.getFriendshipStatus = (otherId, id) => {
+    const q = `SELECT * FROM friendships
+    WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (recipient_id = $2 AND sender_id = $1);`;
+    const params = [otherId, id];
+    return db.query(q, params);
+};
+
+module.exports.addFriend = (id, otherId) => {
+    const q = `INSERT INTO friendships (sender_id, recipient_id) 
+    VALUES ($1, $2) RETURNING *`;
+    const params = [id, otherId];
+    return db.query(q, params);
+};
+
+module.exports.acceptFriendRequest = (otherId, id) => {
+    const q = `UPDATE friendships SET accepted = true
+    WHERE recipient_id = $1 AND sender_id = $2 
+    OR recipient_id = $2 AND sender_id = $1 RETURNING *`;
+    const params = [otherId, id];
+    return db.query(q, params);
+};
+
+module.exports.endFriendship = (otherId, id) => {
+    const q = `DELETE FROM friendships
+    WHERE recipient_id = $1 AND sender_id = $2 
+    OR recipient_id = $2 AND sender_id = $1 RETURNING *`;
+    const params = [otherId, id];
     return db.query(q, params);
 };
