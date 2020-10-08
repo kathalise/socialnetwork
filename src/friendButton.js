@@ -16,23 +16,22 @@ export default function FriendButton({ otherId }) {
         })();
     }, []);
 
-    const handleClick = () => {
+    const handleClick = async () => {
         console.log("Button was clicked!!!", textButton);
-        (async () => {
-            try {
-                console.log("INSIDE TRY");
-                // const friendStatus = {
-                //     otherId: otherId,
-                // };
-                const { data } = await axios.post("/update-friendstatus", {
-                    otherId,
-                });
-                setTextButton(data.textButton);
-                console.log("Updating Friend Status", data.textButton);
-            } catch (err) {
-                console.log("err", err);
-            }
-        })();
+
+        try {
+            console.log("INSIDE TRY");
+            // const friendStatus = {
+            //     otherId: otherId,
+            // };
+            const { data } = await axios.post("/update-friendstatus", {
+                otherId,
+            });
+            setTextButton(data.textButton);
+            console.log("Updating Friend Status", data.textButton);
+        } catch (err) {
+            console.log("err", err);
+        }
     };
 
     return (
