@@ -403,12 +403,12 @@ app.get("/friendstatus/:otherId", async (req, res) => {
             res.json({ textButton: "Add Buddy" });
         } else if (!rows[0].accepted) {
             if (userId == rows[0].sender_id) {
-                res.json({ textButton: "Cancel Buddy Request" });
+                res.json({ textButton: "Cancel Your Request" });
             } else {
                 res.json({ textButton: "Accept Buddy Request" });
             }
-        } else if (rows[0].accepted) {
-            res.json({ textButton: "Delete Buddy" });
+            // } else if (rows[0].accepted) {
+            //     res.json({ textButton: "Delete Buddy" });
         } else {
             console.log("WHAT ELESE??");
         }
@@ -427,15 +427,22 @@ app.post("/update-friendstatus", async (req, res) => {
     console.log("userId: ", userId);
     try {
         let { rows } = await db.addFriend(userId, otherId);
-        console.log("Friend Req accepted", rows[0].accepted);
-        if (rows.length == 0) {
-            res.json({ textButton: "Add Buddy" });
-        } else if (rows[0].accepted == false) {
-            res.json({ textButton: "Cancel Buddy Request" });
+        console.log("Friend Req sent", rows, rows[0].accepted);
+        if (userId == rows[0].sender_id) {
+            res.json({ textButton: "Cancel Your Request" });
+        } else {
+            res.json({ textButton: "Accept Buddy Request" });
         }
-        await db.acceptFriendRequest(otherId, userId);
-        console.log("accepted Friend Request", rows);
-        res.json({ textButton: "acceptFriendRequest" });
+
+        // if (rows.length == 0) {
+        //     res.json({ textButton: "Add Buddy" });
+        // } else if (rows[0].accepted == false) {
+        //     res.json({ textButton: "Cancel Buddy Request" });
+        // }
+
+        // await db.acceptFriendRequest(otherId, userId);
+        // console.log("accepted Friend Request", rows);
+        // res.json({ textButton: "acceptFriendRequest" });
 
         await db.endFriendship(otherId, userId);
         console.log("ended friendship", rows);
