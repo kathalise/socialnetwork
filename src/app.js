@@ -8,7 +8,6 @@ import Profile from "./profile.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile.js";
 import FindPeople from "./findPeople";
-import { Link } from "react-router-dom";
 
 export class App extends React.Component {
     constructor() {
@@ -40,7 +39,6 @@ export class App extends React.Component {
                     imgUrl: data.imgurl,
                     bio: data.bio,
                 });
-                // console.log("this: ", this);
             })
             .catch((err) => {
                 console.log("Err in axios GET / user", err);
@@ -51,7 +49,6 @@ export class App extends React.Component {
     }
 
     toggleUploader() {
-        // console.log("profilepic was hit");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
@@ -66,18 +63,13 @@ export class App extends React.Component {
     }
 
     closeUploader() {
-        // console.log("Uploader Gone");
         this.setState({
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
 
     updateBio(updateMyBio) {
-        // console.log("Greetings from updateBioApp!!!");
         this.setState({
-            /////////////////////////////////////////////////////////////// <<<< POST
-            ///////
-            // app POST index.js
             bio: updateMyBio,
         });
     }
@@ -145,3 +137,7 @@ export class App extends React.Component {
         );
     }
 }
+
+////////////////////////////////////////////////
+//////////// check THIS function ↓ /////////////
+////////////////////////////////////////////////

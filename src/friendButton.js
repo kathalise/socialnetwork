@@ -21,11 +21,9 @@ export default function FriendButton({ otherId }) {
 
         try {
             console.log("INSIDE TRY");
-            // const friendStatus = {
-            //     otherId: otherId,
-            // };
             const { data } = await axios.post("/update-friendstatus", {
                 otherId,
+                textButton,
             });
             setTextButton(data.textButton);
             console.log("Updating Friend Status", data.textButton);
