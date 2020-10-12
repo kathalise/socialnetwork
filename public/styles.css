@@ -4,19 +4,11 @@
     box-sizing: border-box;
 }
 
-/* body,
-html {
-    height: 100%;
-} */
-/* /////////////////*/
-/* background image */
-/* /////////////////*/
-/* .bg {
-    background-image: url("./tiles.jpg");
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+/* ////////////////////////////////////////////////
+/////////// REGISTER / LOGIN / RESET ↓ ////////////
+//////////////////////////////////////////////// */
+/* h1 {
+    background-color: rgba(0, 0, 255, 0.098);
 } */
 
 .welcome {
@@ -24,55 +16,15 @@ html {
     flex-direction: column;
     align-items: center;
     /* border: 2px solid #014a7f; */
-    margin: 40px;
+    /* margin: 40px; */
+
+    height: 100%;
 }
 
 img {
-    height: 400px;
+    height: 250px;
     width: auto;
     object-fit: cover;
-}
-
-header {
-    height: 140px;
-    background-color: rgba(0, 0, 255, 0.447);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    color: white;
-}
-
-.logo {
-    height: 100px;
-    margin: 20px;
-    border: 2px solid white;
-}
-/* profile pic large */
-.large {
-    height: 300px;
-    cursor: pointer;
-    margin: 20px;
-    border: 6px solid rgba(0, 0, 255, 0.447);
-}
-
-/* profile pic medium */
-.medium {
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
-    cursor: pointer;
-    margin: 20px;
-    border: 6px solid rgba(0, 0, 255, 0.447);
-}
-
-/* profile pic small */
-.small {
-    height: 100px;
-    width: 100px;
-    cursor: pointer;
-    margin: 20px;
-    border: 2px solid white;
-    /* border-radius: 50%; */
 }
 
 .registration-form {
@@ -126,7 +78,6 @@ input:focus {
     font-style: italic;
     text-align: center;
 }
-
 .redirect {
     margin: 20px;
     font-size: 14px;
@@ -134,31 +85,160 @@ input:focus {
     text-align: center;
 }
 
-.uploader-container {
+/* ////////////////////////////////////////////////
+////////////// HEADER / NAV BAR  ↓ ////////////////
+//////////////////////////////////////////////// */
+
+header {
+    height: 130px;
+    background-color: rgba(0, 0, 255, 0.447);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    color: white;
+}
+
+.nav {
+    /* margin-left: 150px; */
+    margin-right: 20px;
+    /* height: 30px; */
+    display: flex;
+    flex-direction: row-reverse;
+    /* width: 120px; */
+    justify-content: end;
+    /* background-color: white; */
+}
+.nav .submit-button {
+    box-shadow: none;
+    /* background-color: rgba(0, 0, 255, 0.192); */
+}
+
+.nav .submit-button:hover {
+    background-color: white;
+    color: black;
+    transition: 0.5s;
+}
+
+.nav .submit-button:active {
+    outline: none;
+    background-color: #3d00e3;
+    color: white;
+    box-shadow: inset 3px 4px 0.5px #100260;
+}
+
+.icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.logo {
+    height: 70px;
+    margin: 0 10px 10px 30px;
+    border: 2px solid white;
+}
+/* profile pic large */
+.large {
+    height: 300px;
+    cursor: pointer;
+    margin: 20px;
+    border: 6px solid rgba(0, 0, 255, 0.447);
+}
+
+/* profile pic medium */
+.medium {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    cursor: pointer;
+    margin: 20px;
+    border: 6px solid rgba(0, 0, 255, 0.447);
+}
+
+/* profile pic small */
+.small {
+    height: 70px;
+    width: 70px;
+    cursor: pointer;
+    margin: 0 30px 10px 10px;
+    border: 2px solid white;
+    /* float: right; */
+    /* border-radius: 50%; */
+}
+
+/* ////////////////////////////////////////////////
+////////////// UPLOADER POP UP   ↓ ////////////////
+//////////////////////////////////////////////// */
+
+.uploader {
+    /* display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-evenly; */
 
     background-color: rgb(255, 255, 255);
-    width: 50%;
+    width: 45%;
     height: 50%;
-    position: fixed;
+    position: relative;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -150%);
     transition-property: background-color;
     transition-duration: 1s;
-    box-shadow: 12px 12px 2px 1px #e3001aa8;
+    box-shadow: 8px 8px 2px 1px #e3001a4b;
     border-radius: 8px;
-    border: 1px solid #e3001b;
+    /* border: 1px solid #e3001b; */
     padding: 20px;
+    z-index: 2;
 }
 
-.closeX {
+.uploader > h2 {
+    margin-left: 20px;
+}
+.uploader > button {
+    width: 150px;
+}
+
+.overlay {
+    height: 99%;
+    width: 99%;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.705);
+    z-index: 1;
+}
+/* .closeX {
     cursor: pointer;
     float: right;
+} */
+
+.closeX {
+    position: absolute;
+    top: 0px;
+    right: 30px;
+    float: right;
+    cursor: pointer;
+    /* font-size: 20px; */
+    font-weight: 300;
+    /* color: blue; */
 }
+
+.closeX:hover {
+    color: red;
+    font-weight: 600;
+    /* transition: 0.5s; */
+    /* animation-name: spin;
+    animation-duration: 500ms;
+    animation-timing-function: linear; */
+}
+
+/* @keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+} */
 
 /* .ugly-input {
     width: 0.1px;
@@ -185,12 +265,14 @@ label {
     display: flex;
     flex-direction: row;
     background-color: rgba(255, 255, 255, 0);
+    margin-top: 20px;
 }
 
 .bio-frame {
     display: flex;
     flex-direction: column;
     width: 30%;
+    margin-left: 20px;
 }
 
 /* last step of password change */
@@ -284,3 +366,41 @@ textarea:focus {
     background-color: #e3001b;
     box-shadow: inset 3px 4px 0.5px #60020d;
 }
+
+.my-buddies {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.buddie-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+    margin-left: 10px;
+}
+.buddie-results > h2 {
+    margin: 5px;
+}
+
+.buddie-results > button {
+    width: 150px;
+}
+
+/* body,
+html {
+    height: 100%;
+} */
+/* /////////////////*/
+/* background image */
+/* /////////////////*/
+/* .bg {
+    background-image: url("./logo.png");
+    height: 140px;
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+} */

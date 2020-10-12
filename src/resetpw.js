@@ -77,12 +77,12 @@ export default class ResetPassword extends React.Component {
             elem = (
                 <div className="registration-form">
                     <h3 style={{ alignSelf: "center" }}>Reset Your Password</h3>
-                    <p>Please enter Your email address:</p>
+                    {/* <p>Please enter Your email address:</p> */}
                     {/* <p>Please enter Your email address</p> */}
                     <input
                         name="email"
                         type="email"
-                        placeholder="Email"
+                        placeholder="Enter Your Email"
                         key={0} // what ever this is?
                         onChange={(e) => this.handleChange(e)}
                     />
@@ -92,6 +92,16 @@ export default class ResetPassword extends React.Component {
                     >
                         Next Step
                     </button>
+                    <div className="redirect">
+                        <Link to="/" style={{ color: "black" }}>
+                            Not yet a member? Register here.
+                        </Link>
+                        <br></br>
+                        <br></br>
+                        <Link to="/login" style={{ color: "black" }}>
+                            Found password? Login here.
+                        </Link>
+                    </div>
                 </div>
             );
         } else if (this.state.current == 2) {
@@ -128,7 +138,9 @@ export default class ResetPassword extends React.Component {
                         Your password has been reset successfully!
                     </h3>
                     <div className="redirect">
-                        <Link to="/login">Log in with new Password.</Link>
+                        <Link to="/login" style={{ color: "black" }}>
+                            Log in with new Password.
+                        </Link>
                     </div>
                 </div>
             );
@@ -136,8 +148,9 @@ export default class ResetPassword extends React.Component {
         return (
             <div>
                 {this.state.error && (
-                    <div className="error">
-                        Oops! Something went wrong. Try again.
+                    <div className="error" style={{ marginTop: "20px" }}>
+                        Oops! Something went wrong.
+                        <br></br>Try again.
                     </div>
                 )}
                 {elem}
@@ -148,21 +161,3 @@ export default class ResetPassword extends React.Component {
 ////////////////////////////////////////////////////////////
 ////////////////// ALTERNATIVE TO ABOVE  ///////////////////
 ////////////////////////////////////////////////////////////
-
-//         return (
-//             <div>
-//                 {this.state.current == 1 && (
-//                     <div>
-//                         <input name="email" />
-//                     </div>
-//                 )}
-
-//                 {this.state.current == 2 && (
-//                     <div>
-//                         <input name="code" />
-//                         <input name="password" />
-//                     </div>
-//                 )}
-//             </div>
-//         );
-//     }

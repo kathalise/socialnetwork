@@ -8,6 +8,8 @@ import Profile from "./profile.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile.js";
 import FindPeople from "./findPeople";
+import Friends from "./friends";
+import Nav from "./nav";
 
 export class App extends React.Component {
     constructor() {
@@ -88,16 +90,26 @@ export class App extends React.Component {
                         Please try again.
                     </div>
                 )}
+
                 <header>
-                    <Logo />
-                    <h2>Hey {this.state.firstname}, welcome home!</h2>
-                    <ProfilePic
-                        firstname={this.state.firstname}
-                        lastname={this.state.lastname}
-                        imgUrl={this.state.imgUrl || "/default.png"}
-                        toggleUploader={this.toggleUploader}
-                        imgClassName="small"
-                    />
+                    <div>
+                        <div className="nav">
+                            <Nav />
+                        </div>
+                    </div>
+                    <div className="icons">
+                        <Logo />
+
+                        <h2>Hey {this.state.firstname}, welcome home!</h2>
+
+                        <ProfilePic
+                            firstname={this.state.firstname}
+                            lastname={this.state.lastname}
+                            imgUrl={this.state.imgUrl || "/default.png"}
+                            toggleUploader={this.toggleUploader}
+                            imgClassName="small"
+                        />
+                    </div>
                 </header>
                 <Route
                     exact
@@ -125,14 +137,17 @@ export class App extends React.Component {
                     )}
                 />
                 <Route path="/users" render={() => <FindPeople />} />
-
-                <BackgroundImagePage />
+                <Route path="/buddies" render={() => <Friends />} />
+                {/* <BackgroundImagePage /> */}
                 {this.state.uploaderIsVisible && (
                     <Uploader
                         uploadImage={this.uploadImage}
                         closeUploader={this.closeUploader}
                     />
                 )}
+                {/* <footer>
+                    <p> ++++~~~~~~~~+++++ Footer ++++~~~~~~~~+++++ </p>
+                </footer> */}
             </BrowserRouter>
         );
     }

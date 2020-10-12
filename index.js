@@ -440,6 +440,23 @@ app.post("/update-friendstatus", async (req, res) => {
 });
 
 ////////////////////////////////////////////////
+/* ---------  FRIENDS & WANNABES ------------ */
+////////////////////////////////////////////////
+
+app.get("/get-buddies", async (req, res) => {
+    console.log("INSIDE GET /get-buddies: ", req.session.userId);
+    const recipientId = req.session.userId;
+    try {
+        // console.log("in TRY");
+        let { rows } = await db.getFriends(recipientId);
+        console.log("friends / wannabes : ", rows);
+        res.json(rows);
+    } catch (err) {
+        console.log("err", err);
+    }
+});
+
+////////////////////////////////////////////////
 /* --------------    LOG OUT    ------------- */
 ////////////////////////////////////////////////
 

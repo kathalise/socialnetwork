@@ -9,6 +9,7 @@ export default function Welcome() {
         <div className="welcome">
             <h1>X</h1>
             <img src="/logo.png" alt="logo" />
+
             <div>
                 <HashRouter>
                     <div>

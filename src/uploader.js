@@ -11,10 +11,8 @@ export default class Uploader extends React.Component {
         console.log("Uploader mounted");
     }
 
-    uploadingFile({ target }) {
-        console.log("uploadingFile target: ", { target });
-        console.log("uploadingFile target: ", target.files[0]);
-        const profilePic = target.files[0];
+    uploadingFile() {
+        const profilePic = this.state.file;
         let formData = new FormData();
         console.log("formData: ", formData);
         formData.append("file", profilePic);
@@ -32,6 +30,12 @@ export default class Uploader extends React.Component {
                 console.log("err in POST /uploadProfilepic", err);
             });
     }
+    handleChange(e) {
+        console.log("file: ", e.target.files[0]);
+        this.setState({
+            file: e.target.files[0],
+        });
+    }
 
     closeMe() {
         console.log("x clicked");
@@ -40,20 +44,29 @@ export default class Uploader extends React.Component {
 
     render() {
         return (
-            <div className="uploader-container">
-                <h2 className="closeX" onClick={() => this.closeMe()}>
-                    x
-                </h2>
-                <h2>Update Profile Picture</h2>
+            <>
+                <div className="uploader">
+                    <h2 className="closeX" onClick={() => this.closeMe()}>
+                        x
+                    </h2>
+                    <h2>Update Profile Picture</h2>
 
-                <input
-                    onChange={(e) => this.uploadingFile(e)}
-                    className="ugly-input"
-                    type="file"
-                    name="file"
-                    accept="image/*"
-                ></input>
-            </div>
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        className="ugly-input"
+                        type="file"
+                        name="file"
+                        accept="image/*"
+                    ></input>
+                    <button
+                        className="submit-button"
+                        onClick={() => this.uploadingFile()}
+                    >
+                        Save
+                    </button>
+                </div>
+                <div className="overlay"></div>
+            </>
         );
     }
 }

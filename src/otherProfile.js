@@ -60,26 +60,28 @@ export default class OtherProfile extends React.Component {
             );
         } else {
             return (
-                <div className="bio-container">
-                    <div>
-                        <img
-                            style={{ cursor: "auto" }}
-                            className="large"
-                            src={this.state.imgUrl || "/default.png"}
-                            alt={`${this.state.firstname} ${this.state.lastname}`}
-                        />
-                        {/* Passing otherId as props to Child Component: FriendButton */}
-                        <FriendButton
-                            otherId={this.props.match.params.otherId}
-                        />
+                <>
+                    <div className="bio-container">
+                        <div>
+                            <img
+                                style={{ cursor: "auto" }}
+                                className="large"
+                                src={this.state.imgUrl || "/default.png"}
+                                alt={`${this.state.firstname} ${this.state.lastname}`}
+                            />
+                            {/* Passing otherId as props to Child Component: FriendButton */}
+                            <FriendButton
+                                otherId={this.props.match.params.otherId}
+                            />
+                        </div>
+                        <div className="bio-frame">
+                            <h1>
+                                {this.state.firstname} {this.state.lastname}
+                            </h1>
+                            {this.state.bio}
+                        </div>
                     </div>
-                    <div className="bio-frame">
-                        <h1>
-                            {this.state.firstname} {this.state.lastname}
-                        </h1>
-                        {this.state.bio}
-                    </div>
-                </div>
+                </>
             );
         }
     }

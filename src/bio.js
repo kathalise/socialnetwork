@@ -82,6 +82,7 @@ export default class BioEditor extends React.Component {
                         <button
                             onClick={() => this.bioEditingModeOn()}
                             className="submit-button"
+                            style={{ width: "150px" }}
                         >
                             Edit Your Bio
                         </button>
