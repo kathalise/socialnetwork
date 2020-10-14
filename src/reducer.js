@@ -1,4 +1,4 @@
-import Friends from "./friends";
+// import Friends from "./friends";
 
 export default function reducer(state = {}, action) {
     if (action.type == "LOAD_FRIENDLIST") {
@@ -18,7 +18,7 @@ export default function reducer(state = {}, action) {
                     // console.log("action.wannabe: ", action.wannabe);
 
                     return {
-                        ...user,
+                        // ...user,
                         accepted: true,
                     };
                 } else {
@@ -36,6 +36,23 @@ export default function reducer(state = {}, action) {
             listOfFriends: state.listOfFriends.filter(
                 (user) => user.id != action.buddy
             ),
+        };
+    }
+
+    if (action.type == "GET_CHAT_MESSAGES") {
+        console.log("GET_CHAT_MESSAGES");
+        state = {
+            ...state,
+            chatMessages: action.payload.reverse(),
+        };
+        console.log("new state in get chat msg", state);
+    }
+
+    if (action.type == "NEW_CHAT_MESSAGE") {
+        console.log("NEW_CHAT_MESSAGE");
+        state = {
+            ...state,
+            chatMessages: [...state.chatMessages, action.payload],
         };
     }
     return state;

@@ -4,7 +4,7 @@ import axios from "./axios";
 export async function getListOfFriends() {
     try {
         const { data } = await axios.get("/get-buddies");
-        console.log("data from DB: ", data);
+        console.log("actions.js / data from DB: ", data);
         return {
             type: "LOAD_FRIENDLIST",
             listOfFriends: data,
@@ -48,5 +48,29 @@ export async function unfriend(otherId) {
         };
     } catch (err) {
         console.log("err", err);
+    }
+}
+
+export async function getChatMessages(chatMessages) {
+    try {
+        console.log("get Chat Messages: ", chatMessages);
+        return {
+            type: "GET_CHAT_MESSAGES",
+            payload: chatMessages,
+        };
+    } catch (err) {
+        console.log("Error in getChatMessages", err);
+    }
+}
+
+export async function newChatMessage(newMassage) {
+    try {
+        console.log("new Chat Message: ", newMassage);
+        return {
+            type: "NEW_CHAT_MESSAGE",
+            payload: newMassage,
+        };
+    } catch (err) {
+        console.log("Errorin newChatMessage", err);
     }
 }

@@ -6,11 +6,15 @@ export default function Nav() {
             <a href={"/logout"}>
                 <button className="logout submit-button">Log out</button>
             </a>
+            <a href={"/users"}>
+                <button className="submit-button">Find People</button>
+            </a>
             <a href={"/buddies"}>
                 <button className="submit-button">My Buddies</button>
             </a>
-            <a href={"/users"}>
-                <button className="submit-button">Find People</button>
+
+            <a href={"/chat"}>
+                <button className="submit-button">Chat Room</button>
             </a>
 
             <a href={"/"}>

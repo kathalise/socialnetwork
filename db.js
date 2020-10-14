@@ -77,7 +77,7 @@ module.exports.getCode = (email) => {
 module.exports.getFriendshipStatus = (otherId, id) => {
     const q = `SELECT * FROM friendships
     WHERE (recipient_id = $1 AND sender_id = $2)
-    OR (recipient_id = $2 AND sender_id = $1);`;
+    OR (sender_id = $1 AND recipient_id = $2);`;
     const params = [otherId, id];
     return db.query(q, params);
 };
@@ -112,6 +112,28 @@ module.exports.getFriends = (id) => {
     ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
+    const params = [id];
+    return db.query(q, params);
+};
+
+// ---------------------------- messages ------------------------ //
+
+module.exports.getLastTenChatMessages = () => {
+    const q = `SELECT users.id, users.imgurl, users.firstname, users.lastname, message_text, messages.created_at 
+    FROM messages
+    JOIN users ON sender_id = users.id
+    ORDER BY messages.created_at DESC LIMIT 10`;
+    return db.query(q);
+};
+module.exports.addMessages = (id, msgTxt) => {
+    const q = `INSERT INTO messages (sender_id, message_text) VALUES ($1, $2) RETURNING *`;
+    const params = [id, msgTxt];
+    return db.query(q, params);
+};
+
+module.exports.getUserChatMessage = (id) => {
+    const q = `SELECT firstname, lastname, imgurl FROM users
+    WHERE id = $1`;
     const params = [id];
     return db.query(q, params);
 };

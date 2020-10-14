@@ -3,13 +3,14 @@ import Logo from "./logo.js";
 import Uploader from "./uploader.js";
 import axios from "./axios.js";
 import ProfilePic from "./profilepic.js";
-import BackgroundImagePage from "./background.js";
+// import BackgroundImagePage from "./background.js";
 import Profile from "./profile.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile.js";
 import FindPeople from "./findPeople";
 import Friends from "./friends";
 import Nav from "./nav";
+import Chat from "./chat.js";
 
 export class App extends React.Component {
     constructor() {
@@ -22,7 +23,7 @@ export class App extends React.Component {
         this.uploadImage = this.uploadImage.bind(this);
         this.closeUploader = this.closeUploader.bind(this);
         this.updateBio = this.updateBio.bind(this);
-        console.log("this: ", this);
+        // console.log("this: ", this);
     }
 
     componentDidMount() {
@@ -136,8 +137,9 @@ export class App extends React.Component {
                         />
                     )}
                 />
-                <Route path="/users" render={() => <FindPeople />} />
-                <Route path="/buddies" render={() => <Friends />} />
+                <Route path="/users" component={FindPeople} />
+                <Route path="/buddies" component={Friends} />
+                <Route path="/chat" component={Chat} />
                 {/* <BackgroundImagePage /> */}
                 {this.state.uploaderIsVisible && (
                     <Uploader

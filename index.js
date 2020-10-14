@@ -3,19 +3,24 @@ const app = express();
 const compression = require("compression");
 const { compare, hash } = require("./bcrypt.js");
 // const cookieParser = require("cookie-parser");
-const cookieSession = require("cookie-session");
+// const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const db = require("./db.js");
 // const secrets = require("./secrets");
 const ses = require("./ses.js");
 const cryptoRandomString = require("crypto-random-string");
 
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
+
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const path = require("path");
 const s3 = require("./s3.js");
 const config = require("./config.json");
-const { IdentityStore } = require("aws-sdk");
+// const { socket } = require(".socket.js");
+// const { IdentityStore } = require("aws-sdk");
+// const { Server } = require("tls");
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + "/uploads");
@@ -37,23 +42,41 @@ app.use(compression());
 app.use(express.static("./public"));
 app.use(express.json());
 
-// cookie session
-let secrets;
-process.env.NODE_ENV === "production"
-    ? (secrets = process.env)
-    : (secrets = require("./secrets"));
-app.use(
-    cookieSession({
-        secret: `${secrets.sessionSecret}`,
-        maxAge: 1000 * 60 * 60 * 24,
-    })
-);
-
 app.use(
     express.urlencoded({
         extended: false,
     })
 );
+// cookie session
+// let secrets;
+// process.env.NODE_ENV === "production"
+//     ? (secrets = process.env)
+//     : (secrets = require("./secrets"));
+// app.use(
+//     cookieSession({
+//         secret: `${secrets.sessionSecret}`,
+//         maxAge: 1000 * 60 * 60 * 24,
+//     })
+// );
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+const secrets = require("./secrets.json");
+// console.log("My secrets", secrets);
+const cookieSession = require("cookie-session");
+const cookieSessionMiddleware = cookieSession({
+    secret: secrets.sessionSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
 
 // cookie Session token protection
 app.use(csurf());
@@ -480,6 +503,61 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening on 8080.");
+});
+
+////////////////////////////////////////////////
+/* --------------    SOCKET     ------------- */
+////////////////////////////////////////////////
+io.on("connection", function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    console.log(`socket with the id ${socket.id} is now connected`);
+    const userId = socket.request.session.userId;
+
+    // now is the time to get the last 10 chat messages
+    db.getLastTenChatMessages()
+        .then((data) => {
+            console.log("data.rows", data.rows[0].firstname);
+            // this is the moment we want to emit them to everyone!
+            // data or data.rows --- check it out!
+            io.sockets.emit("getChatMessages", data.rows);
+        })
+        .catch((err) => {
+            console.log("Error", err);
+        });
+
+    socket.on("newChatMessage", (newMessage) => {
+        console.log("newMessage", newMessage);
+        // send the message out to everyone...
+        db.addMessages(userId, newMessage)
+            .then((data) => {
+                console.log("Data in add Msg: ", data.rows[0]);
+
+                db.getUserChatMessage(userId)
+                    .then((userInfo) => {
+                        console.log(
+                            "inside getUserChat, result: ",
+                            userInfo.rows[0]
+                        );
+                        io.sockets.emit(
+                            "newChatMessage",
+                            userInfo.rows[0],
+                            newMessage
+                        );
+                    })
+                    .catch((err) => {
+                        console.log(
+                            "Inside Catch block getUserChatMessage",
+                            err
+                        );
+                    });
+            })
+            .catch((err) => {
+                console.log("Error in add Message", err);
+            });
+    });
 });
