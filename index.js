@@ -543,11 +543,11 @@ io.on("connection", function (socket) {
                             "inside getUserChat, result: ",
                             userInfo.rows[0]
                         );
-                        io.sockets.emit(
-                            "newChatMessage",
-                            userInfo.rows[0],
-                            newMessage
-                        );
+                        const brandNewMsg = {
+                            ...data.rows[0],
+                            ...userInfo.rows[0],
+                        };
+                        io.sockets.emit("newChatMessage", brandNewMsg);
                     })
                     .catch((err) => {
                         console.log(

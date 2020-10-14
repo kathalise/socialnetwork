@@ -43,13 +43,7 @@ export default function Chat() {
                             return (
                                 <div className="message" key={i}>
                                     <div className="img-chat">
-                                        <img
-                                            style={{
-                                                height: "70px",
-                                                width: "70px",
-                                            }}
-                                            src={message.imgurl}
-                                        />
+                                        <img src={message.imgurl} />
                                     </div>
                                     <div className="name-msg-chat">
                                         <p>
@@ -75,7 +69,7 @@ export default function Chat() {
                 <textarea
                     className="chat-textarea"
                     onKeyDown={keyCheck}
-                    placeholder="Add your message here..."
+                    placeholder="Write your message here and hit Enter..."
                 ></textarea>
             </div>
         </>

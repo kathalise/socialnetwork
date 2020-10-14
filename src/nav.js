@@ -14,7 +14,7 @@ export default function Nav() {
             </a>
 
             <a href={"/chat"}>
-                <button className="submit-button">Chat Room</button>
+                <button className="submit-button">The Chatroom</button>
             </a>
 
             <a href={"/"}>

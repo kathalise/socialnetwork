@@ -412,27 +412,24 @@ html {
     align-items: center;
 }
 .chat-container {
-    /* margin-left: 50px; */
-    /* border: 1px #e3001b solid; */
     border: 6px solid rgba(0, 0, 255, 0.447);
     height: 350px;
-    width: 800px;
+    width: 700px;
     overflow-y: scroll;
 }
 
 .chat-textarea {
-    /* margin-left: 50px; */
-    /* border: 2px blue solid; */
-    width: 800px;
+    width: 700px;
 }
 .message {
     /* border: 2px blue solid; */
     display: flex;
 }
 
-.name-msg-chat {
-    margin-left: 10px;
+.img-chat > img {
+    height: 70px;
+    width: 70px;
+    margin: 10px;
+    margin-top: 5px;
+    margin-bottom: 0;
 }
-/* p{
-    text-decoration: underline;
-} */
