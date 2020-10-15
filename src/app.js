@@ -11,6 +11,7 @@ import FindPeople from "./findPeople";
 import Friends from "./friends";
 import Nav from "./nav";
 import Chat from "./chat.js";
+// import FriendsofFriends from "./friedsOfFriends";
 
 export class App extends React.Component {
     constructor() {
@@ -140,6 +141,10 @@ export class App extends React.Component {
                 <Route path="/users" component={FindPeople} />
                 <Route path="/buddies" component={Friends} />
                 <Route path="/chat" component={Chat} />
+                {/* <Route
+                    path="/their-friends/:otherId"
+                    component={FriendsofFriends}
+                /> */}
                 {/* <BackgroundImagePage /> */}
                 {this.state.uploaderIsVisible && (
                     <Uploader
@@ -147,9 +152,6 @@ export class App extends React.Component {
                         closeUploader={this.closeUploader}
                     />
                 )}
-                {/* <footer>
-                    <p> ++++~~~~~~~~+++++ Footer ++++~~~~~~~~+++++ </p>
-                </footer> */}
             </BrowserRouter>
         );
     }

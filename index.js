@@ -480,6 +480,46 @@ app.get("/get-buddies", async (req, res) => {
 });
 
 ////////////////////////////////////////////////
+/* ---------  FRIENDS SELECTION  ------------ */
+////////////////////////////////////////////////
+
+app.get("/show/their-friends/:otherId", (req, res) => {
+    // console.log("Visiting Profile Id: ", req.params.otherId);
+    const userId = req.session.userId;
+    const otherId = req.params.otherId;
+
+    db.getFriendshipStatus(otherId, userId)
+        .then(({ rows }) => {
+            console.log("ROWS: ", rows);
+            console.log("ROWS: ", rows.length);
+            if (rows.length == 0) {
+                // console.log("rows[0].accepted", rows[0].accepted);
+                console.log("YOU CANT SEE FRIENDS OF THIS PERSON (NO REQUEST)");
+            } else if (rows[0].accepted == false) {
+                console.log(
+                    "YOU CANT SEE FRIENDS OF THIS PERSON (NOT ACCEPTED)"
+                );
+            } else if (rows[0].accepted == true) {
+                db.getFriendsSelection(otherId)
+                    .then((result) => {
+                        console.log(
+                            "inside getFriendsSelection, result.rows: ",
+                            result.rows
+                        );
+                        res.json(result.rows);
+                    })
+                    .catch((err) => {
+                        console.log("Err in getFriendsSelection", err);
+                    });
+            }
+        })
+        .catch((err) => {
+            console.log("error", err);
+        });
+
+    // console.log("in getFriendshipStatus", rows);
+});
+////////////////////////////////////////////////
 /* --------------    LOG OUT    ------------- */
 ////////////////////////////////////////////////
 
@@ -521,7 +561,7 @@ io.on("connection", function (socket) {
     // now is the time to get the last 10 chat messages
     db.getLastTenChatMessages()
         .then((data) => {
-            console.log("data.rows", data.rows[0].firstname);
+            // console.log("data.rows", data.rows[0].firstname);
             // this is the moment we want to emit them to everyone!
             // data or data.rows --- check it out!
             io.sockets.emit("getChatMessages", data.rows);

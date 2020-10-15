@@ -116,6 +116,16 @@ module.exports.getFriends = (id) => {
     return db.query(q, params);
 };
 
+module.exports.getFriendsSelection = (otherId) => {
+    const q = `SELECT users.id, users.firstname, users.lastname, users.imgUrl, accepted
+    FROM friendships 
+    JOIN users ON
+    (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
+    const params = [otherId];
+    return db.query(q, params);
+};
+
 // ---------------------------- messages ------------------------ //
 
 module.exports.getLastTenChatMessages = () => {
