@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import FriendButton from "./friendButton";
-import Friends from "./friends";
-import FriendsofFriends from "./friedsofFriends";
+import FriendsofFriends from "./friedsOfFriends";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -11,12 +10,6 @@ export default class OtherProfile extends React.Component {
     }
 
     componentDidMount() {
-        // console.log("this.props.match: ", this.props.match);
-        // console.log(
-        //     "the user we want to look at has the id: ",
-        //     this.props.match.params.otherId
-        // );
-
         const otherId = this.props.match.params.otherId;
         axios
             .get(`/visit/user/${otherId}`)
@@ -32,7 +25,7 @@ export default class OtherProfile extends React.Component {
                         noUserId: true,
                     });
                 } else {
-                    // console.log("loggedIn visiting another user");
+                    // console.log("Friends of other user should be rendered");
                     this.setState({
                         id: data.id,
                         firstname: data.firstname,
@@ -47,6 +40,35 @@ export default class OtherProfile extends React.Component {
             });
     }
 
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     const otherId = this.props.match.params.otherId;
+    //     if (otherId !== prevProps.match.params.otherId) {
+    //         axios
+    //             .get(`/visit/user/${otherId}`)
+    //             .then(({ data }) => {
+    //                 if (data.same) {
+    //                     this.props.history.push("/");
+    //                 } else if (data.noUserId) {
+    //                     this.setState({
+    //                         noUserId: true,
+    //                     });
+    //                 } else {
+    //                     console.log("Friends of other user should be rendered");
+    //                     this.setState({
+    //                         id: data.id,
+    //                         firstname: data.firstname,
+    //                         lastname: data.lastname,
+    //                         imgUrl: data.imgurl,
+    //                         bio: data.bio,
+    //                     });
+    //                     console.log("data.id", data.id);
+    //                 }
+    //             })
+    //             .catch((err) => {
+    //                 console.log("Err in GET /user/:otherId", err);
+    //             });
+    //     }
+    // }
     render() {
         if (this.state.noUserId) {
             return (
@@ -71,7 +93,6 @@ export default class OtherProfile extends React.Component {
                                 src={this.state.imgUrl || "/default.png"}
                                 alt={`${this.state.firstname} ${this.state.lastname}`}
                             />
-                            {/* Passing otherId as props to Child Component: FriendButton */}
                             <FriendButton
                                 otherId={this.props.match.params.otherId}
                             />
@@ -80,10 +101,9 @@ export default class OtherProfile extends React.Component {
                             <h1>
                                 {this.state.firstname} {this.state.lastname}
                             </h1>
-                            {this.state.bio}
+                            <div>{this.state.bio}</div>
                         </div>
                         <div className="friends-profile">
-                            {/* <h1>{this.state.firstname}`s Buddies</h1> */}
                             <FriendsofFriends
                                 otherId={this.props.match.params.otherId}
                                 firstname={this.state.firstname}

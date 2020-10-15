@@ -4,6 +4,19 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    margin: 0;
+    background-image: url("./wallpaper2.jpg");
+
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+    height: 100vh;
+}
+
 /* ////////////////////////////////////////////////
 /////////// REGISTER / LOGIN / RESET ↓ ////////////
 //////////////////////////////////////////////// */
@@ -57,7 +70,7 @@ input:focus {
     border: none;
     margin: 10px 10px 5px;
     padding: 6px 6px;
-    background-color: rgba(158, 156, 156, 0.123);
+    background-color: white;
     cursor: pointer;
     outline: none;
 }
@@ -90,12 +103,20 @@ input:focus {
 //////////////////////////////////////////////// */
 
 header {
+    background-image: url("./background.jpg");
     height: 130px;
-    background-color: rgba(0, 0, 255, 0.447);
+    background-color: rgb(97, 97, 189);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: white;
+    margin: 0;
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+    border-bottom: 4px white solid;
 }
 
 .nav {
@@ -110,7 +131,7 @@ header {
 }
 .nav .submit-button {
     box-shadow: none;
-    /* background-color: rgba(0, 0, 255, 0.192); */
+    background-color: rgba(0, 0, 255, 0);
 }
 
 .nav .submit-button:hover {
@@ -142,7 +163,7 @@ header {
     /* width: 350px; */
     cursor: pointer;
     margin: 20px;
-    border: 6px solid rgba(0, 0, 255, 0.447);
+    border: 15px solid white;
 }
 
 /* profile pic medium */
@@ -152,7 +173,7 @@ header {
     object-fit: cover;
     cursor: pointer;
     margin: 20px;
-    border: 6px solid rgba(0, 0, 255, 0.447);
+    border: 8px solid white;
 }
 
 /* profile pic small */
@@ -267,6 +288,7 @@ label {
     flex-direction: row;
     background-color: rgba(255, 255, 255, 0);
     margin-top: 20px;
+    position: relative;
 }
 
 .bio-frame {
@@ -274,6 +296,11 @@ label {
     flex-direction: column;
     width: 30%;
     margin-left: 20px;
+}
+
+.add-bio > .submit-button {
+    margin: 0;
+    margin-top: 20px;
 }
 
 /* last step of password change */
@@ -297,7 +324,7 @@ textarea:focus {
 }
 
 .bio-buttons {
-    display: flex;
+    /* display: flex; */
     flex-direction: row;
     /* width: 100%; */
     justify-content: space-between;
@@ -318,6 +345,10 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.newbies > h2 {
+    margin-top: 0;
 }
 
 .center-headline {
@@ -349,12 +380,13 @@ textarea:focus {
 
     border-radius: 8px;
     border: none;
-    margin: 10px 10px 5px;
-    padding: 6px 6px;
-    background-color: rgba(158, 156, 156, 0.473);
-    cursor: pointer;
-    outline: none;
     margin-left: 20px;
+    margin-top: 20px;
+    padding: 6px 6px;
+    background-color: white;
+    /* cursor: pointer;
+    outline: none;
+    margin-left: 20px; */
 }
 
 .friend-button:hover {
@@ -379,8 +411,7 @@ textarea:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 10px;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 .buddie-results > h2 {
     margin: 5px;
@@ -390,21 +421,9 @@ textarea:focus {
     width: 150px;
 }
 
-/* body,
-html {
-    height: 100%;
-} */
-/* /////////////////*/
-/* background image */
-/* /////////////////*/
-/* .bg {
-    background-image: url("./logo.png");
-    height: 140px;
-    width: 100vw;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-} */
+.pending {
+    display: flex;
+}
 
 .chat-room {
     display: flex;
@@ -413,10 +432,13 @@ html {
     align-items: center;
 }
 .chat-container {
-    border: 6px solid rgba(0, 0, 255, 0.447);
+    border: 6px solid white;
     height: 350px;
     width: 700px;
     overflow-y: scroll;
+    background-image: url("./background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .chat-textarea {
@@ -436,15 +458,34 @@ html {
 }
 
 .friends-profile {
-    /* border: 2px blue solid;
+    /* border: 2px blue solid; */
     height: 400px;
-    width: 300px; */
+    overflow-y: scroll;
+    /* width: 300px;  */
+    position: absolute;
+    right: 30px;
+    padding-right: 50px;
 }
 
-.buddie-results-selection {
+.buddies-of-buddy {
     display: flex;
     /* flex-direction: column; */
     /* align-items: center; */
     margin-left: 10px;
     margin-left: 10px;
+}
+
+footer {
+    height: 50px;
+    text-align: center;
+    background-color: rgba(0, 0, 255, 0.26);
+    display: flex;
+    /* flex-direction: column;
+    justify-content: space-between; */
+    color: white;
+    margin-top: 50px;
+    /* position: absolute; */
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

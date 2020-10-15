@@ -31,7 +31,7 @@ export default function Friends() {
 
     return (
         <div>
-            <h1 style={{ textAlign: "center" }}>Your Buddies</h1>
+            <h1 style={{ textAlign: "center" }}>My Buddies</h1>
             <div className="my-buddies">
                 {myBuddies &&
                     myBuddies.map((buddy, i) => {
@@ -58,36 +58,45 @@ export default function Friends() {
                     })}
             </div>
 
-            {myWannaBuddies &&
-                myWannaBuddies.map((user, i) => {
-                    return (
-                        <div key={i}>
-                            <h1 style={{ textAlign: "center" }}>Pending</h1>
-                            <div className="my-buddies">
-                                <div className="buddie-results" key={user}>
-                                    <Link to={`/user/${user.id}`} key={user.id}>
-                                        <img
-                                            key={user}
-                                            className="medium"
-                                            src={user.imgurl || "/default.png"}
-                                        />
-                                    </Link>
-                                    <h2>
-                                        {user.firstname} {user.lastname}
-                                    </h2>
-                                    <button
-                                        onClick={() =>
-                                            dispatch(acceptFriend(user.id))
-                                        }
-                                        className="submit-button"
-                                    >
-                                        Accept
-                                    </button>
+            <div>
+                <h1 style={{ textAlign: "center" }}>Pending</h1>
+
+                <div className="pending">
+                    {myWannaBuddies &&
+                        myWannaBuddies.map((user, i) => {
+                            return (
+                                <div className="my-buddies" key={i}>
+                                    <div className="buddie-results" key={user}>
+                                        <Link
+                                            to={`/user/${user.id}`}
+                                            key={user.id}
+                                        >
+                                            <img
+                                                key={user}
+                                                className="medium"
+                                                src={
+                                                    user.imgurl ||
+                                                    "/default.png"
+                                                }
+                                            />
+                                        </Link>
+                                        <h2>
+                                            {user.firstname} {user.lastname}
+                                        </h2>
+                                        <button
+                                            onClick={() =>
+                                                dispatch(acceptFriend(user.id))
+                                            }
+                                            className="submit-button"
+                                        >
+                                            Accept
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    );
-                })}
+                            );
+                        })}
+                </div>
+            </div>
         </div>
     );
 }

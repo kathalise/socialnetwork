@@ -7,8 +7,12 @@ import ResetPassword from "./resetpw.js";
 export default function Welcome() {
     return (
         <div className="welcome">
-            <h1>X</h1>
-            <img src="/logo.png" alt="logo" />
+            <h1>Retro Social Network</h1>
+            <img
+                style={{ border: "6px white solid" }}
+                src="/logo.png"
+                alt="logo"
+            />
 
             <div>
                 <HashRouter>

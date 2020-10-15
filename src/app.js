@@ -3,7 +3,6 @@ import Logo from "./logo.js";
 import Uploader from "./uploader.js";
 import axios from "./axios.js";
 import ProfilePic from "./profilepic.js";
-// import BackgroundImagePage from "./background.js";
 import Profile from "./profile.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "./otherProfile.js";
@@ -11,7 +10,8 @@ import FindPeople from "./findPeople";
 import Friends from "./friends";
 import Nav from "./nav";
 import Chat from "./chat.js";
-// import FriendsofFriends from "./friedsOfFriends";
+
+// import BackgroundImage from "./background";
 
 export class App extends React.Component {
     constructor() {
@@ -92,7 +92,6 @@ export class App extends React.Component {
                         Please try again.
                     </div>
                 )}
-
                 <header>
                     <div>
                         <div className="nav">
@@ -102,7 +101,9 @@ export class App extends React.Component {
                     <div className="icons">
                         <Logo />
 
-                        <h2>Hey {this.state.firstname}, welcome home!</h2>
+                        <h2>
+                            Hey {this.state.firstname}, you are now logged in!
+                        </h2>
 
                         <ProfilePic
                             firstname={this.state.firstname}
@@ -113,6 +114,7 @@ export class App extends React.Component {
                         />
                     </div>
                 </header>
+
                 <Route
                     exact
                     path="/"
@@ -141,10 +143,7 @@ export class App extends React.Component {
                 <Route path="/users" component={FindPeople} />
                 <Route path="/buddies" component={Friends} />
                 <Route path="/chat" component={Chat} />
-                {/* <Route
-                    path="/their-friends/:otherId"
-                    component={FriendsofFriends}
-                /> */}
+
                 {/* <BackgroundImagePage /> */}
                 {this.state.uploaderIsVisible && (
                     <Uploader
@@ -152,6 +151,12 @@ export class App extends React.Component {
                         closeUploader={this.closeUploader}
                     />
                 )}
+
+                {/* <footer>
+                    <div>
+                        <p>This is the footer</p>
+                    </div>
+                </footer> */}
             </BrowserRouter>
         );
     }

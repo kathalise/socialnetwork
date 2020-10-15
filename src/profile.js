@@ -11,18 +11,23 @@ export default function Profile({
     updateBio,
 }) {
     return (
-        <div className="bio-container">
-            <ProfilePic
-                imgUrl={imgUrl}
-                toggleUploader={toggleUploader}
-                imgClassName="large"
-            />
-            <div className="bio-frame">
-                <h1>
-                    {firstname} {lastname}
-                </h1>
-                <BioEditor bio={bio} updateBio={updateBio} />
+        <>
+            <div style={{ textAlign: "center" }} className="your-profile">
+                {/* <h1>My Profile</h1> */}
             </div>
-        </div>
+            <div className="bio-container">
+                <ProfilePic
+                    imgUrl={imgUrl}
+                    toggleUploader={toggleUploader}
+                    imgClassName="large"
+                />
+                <div className="bio-frame">
+                    <h1>
+                        {firstname} {lastname}
+                    </h1>
+                    <BioEditor bio={bio} updateBio={updateBio} />
+                </div>
+            </div>
+        </>
     );
 }

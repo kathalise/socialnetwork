@@ -40,7 +40,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <div className="registration-form">
-                <h3 style={{ alignSelf: "center" }}>Login here</h3>
+                <h3 style={{ alignSelf: "center" }}>Login to your Account</h3>
                 {this.state.error && (
                     <div className="error">
                         Oops! Something went wrong.<br></br>

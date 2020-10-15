@@ -1,7 +1,7 @@
 import React from "react";
 
-const BackgroundImagePage = () => {
-    return <div className="bg">{/* <img src="/logo.png" alt="logo" /> */}</div>;
+const BackgroundImage = () => {
+    return <img src="/background.jpg" alt="background" />;
 };
 
-export default BackgroundImagePage;
+export default BackgroundImage;

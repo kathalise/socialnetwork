@@ -52,7 +52,7 @@ export default class BioEditor extends React.Component {
             elem = (
                 <>
                     <textarea
-                        cols="30"
+                        cols="38"
                         rows="4"
                         defaultValue={this.props.bio}
                         onChange={(e) => this.handleChange(e)}
@@ -77,29 +77,30 @@ export default class BioEditor extends React.Component {
         } else if (!this.state.bioEditingMode) {
             if (this.props.bio) {
                 elem = (
-                    <>
+                    <div className="add-bio">
                         <p>{this.props.bio}</p>
+                        <button
+                            onClick={() => this.bioEditingModeOn()}
+                            className="submit-button bio"
+                            style={{ width: "150px" }}
+                        >
+                            Edit Bio
+                        </button>
+                    </div>
+                );
+            } else {
+                //no bio
+                elem = (
+                    <div className="add-bio">
+                        {/* <p>There is no bio...</p> */}
                         <button
                             onClick={() => this.bioEditingModeOn()}
                             className="submit-button"
                             style={{ width: "150px" }}
                         >
-                            Edit Your Bio
+                            Add bio
                         </button>
-                    </>
-                );
-            } else {
-                //no bio
-                elem = (
-                    <>
-                        {/* <p>There is no bio...</p> */}
-                        <button
-                            onClick={() => this.bioEditingModeOn()}
-                            className="submit-button"
-                        >
-                            Write your bio
-                        </button>
-                    </>
+                    </div>
                 );
             }
         }

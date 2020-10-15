@@ -42,9 +42,7 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div className="registration-form">
-                <h3 style={{ alignSelf: "center" }}>
-                    Join the social network!
-                </h3>
+                <h3 style={{ alignSelf: "center" }}>Join now!</h3>
                 {this.state.error && (
                     <div className="error">
                         Oops! Something went wrong.<br></br>

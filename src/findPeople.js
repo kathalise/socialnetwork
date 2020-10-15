@@ -58,33 +58,14 @@ export default function FindPeople() {
     };
 
     return (
-        <>
-            <h1 className="center-headline">Recently Joined</h1>
-            <div className="newbies-container">
-                {users.map((user, i) => {
-                    return (
-                        <div className="newbies" key={i}>
-                            <Link key={i} to={`/user/${user.id}`}>
-                                <img
-                                    className="medium"
-                                    src={user.imgurl || "/default.png"}
-                                />
-                            </Link>
-
-                            <h2>
-                                {user.firstname} {user.lastname}
-                            </h2>
-                        </div>
-                    );
-                })}
-            </div>
-
-            <h1 className="center-headline">Search for User</h1>
+        <div className="find-people">
+            <h1 className="center-headline">Find People</h1>
             <div className="search-container">
+                {/* <h2 className="center-headline">Search The Network</h2> */}
                 <input
                     className="search"
                     onChange={handleChange}
-                    placeholder={"Search"}
+                    placeholder={"Search Social Network 🔎"}
                 />
                 {userSearch.map((user, i) => {
                     return (
@@ -103,6 +84,28 @@ export default function FindPeople() {
                     );
                 })}
             </div>
-        </>
+
+            <h2 style={{ marginTop: "50px" }} className="center-headline">
+                Has recently joined
+            </h2>
+            <div className="newbies-container">
+                {users.map((user, i) => {
+                    return (
+                        <div className="newbies" key={i}>
+                            <Link key={i} to={`/user/${user.id}`}>
+                                <img
+                                    className="medium"
+                                    src={user.imgurl || "/default.png"}
+                                />
+                            </Link>
+
+                            <h2>
+                                {user.firstname} {user.lastname}
+                            </h2>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
     );
 }

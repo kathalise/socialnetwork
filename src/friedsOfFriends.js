@@ -27,17 +27,14 @@ export default function FriendsofFriends({ otherId, firstname }) {
             {buddiesOfBuddy &&
                 buddiesOfBuddy.map((buddy, i) => {
                     return (
-                        <div
-                            className="buddie-results-selection"
-                            key={buddy.id}
-                        >
-                            <Link to={`/user/${buddy.id}`} key={buddy.id}>
+                        <div className="buddies-of-buddy" key={buddy.id}>
+                            <a href={`/user/${buddy.id}`} key={buddy.id}>
                                 <img
                                     className="small"
                                     key={i}
                                     src={buddy.imgurl || "/default.png"}
                                 />
-                            </Link>
+                            </a>
                             <h3>
                                 {buddy.firstname} {buddy.lastname}
                             </h3>

@@ -9,12 +9,11 @@ export default function Nav() {
             <a href={"/users"}>
                 <button className="submit-button">Find People</button>
             </a>
-            <a href={"/buddies"}>
-                <button className="submit-button">My Buddies</button>
-            </a>
-
             <a href={"/chat"}>
                 <button className="submit-button">The Chatroom</button>
+            </a>
+            <a href={"/buddies"}>
+                <button className="submit-button">My Buddies</button>
             </a>
 
             <a href={"/"}>

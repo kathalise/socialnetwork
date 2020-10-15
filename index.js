@@ -11,7 +11,9 @@ const ses = require("./ses.js");
 const cryptoRandomString = require("crypto-random-string");
 
 const server = require("http").Server(app);
-const io = require("socket.io")(server, { origins: "localhost:8080" });
+const io = require("socket.io")(server, {
+    origins: "localhost:8080",
+});
 
 const multer = require("multer");
 const uidSafe = require("uid-safe");
@@ -63,7 +65,10 @@ app.use(
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 
-const secrets = require("./secrets.json");
+let secrets = require("./secrets.json");
+process.env.NODE_ENV === "production"
+    ? (secrets = process.env)
+    : (secrets = require("./secrets"));
 // console.log("My secrets", secrets);
 const cookieSession = require("cookie-session");
 const cookieSessionMiddleware = cookieSession({
@@ -543,7 +548,7 @@ app.get("*", function (req, res) {
     }
 });
 
-server.listen(8080, function () {
+server.listen(process.env.PORT || 8080, function () {
     console.log("I'm listening on 8080.");
 });
 

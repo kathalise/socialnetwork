@@ -34,7 +34,7 @@ export default function Chat() {
 
     return (
         <>
-            <h1 className="center-headline">Chatroom</h1>
+            <h1 className="center-headline">The Chatroom</h1>
             <div className="chat-room">
                 <div className="chat-container" ref={elemRef}>
                     {chatMessages &&

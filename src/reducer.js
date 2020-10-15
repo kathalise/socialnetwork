@@ -18,7 +18,7 @@ export default function reducer(state = {}, action) {
                     // console.log("action.wannabe: ", action.wannabe);
 
                     return {
-                        // ...user,
+                        ...user,
                         accepted: true,
                     };
                 } else {
